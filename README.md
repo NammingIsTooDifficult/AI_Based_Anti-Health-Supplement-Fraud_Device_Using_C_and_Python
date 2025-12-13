@@ -77,7 +77,7 @@
 pip install serial requests tencentcloud-sdk-python
 ```
 
-3.配置esp32_audio_ai.py中的密钥：
+3. 配置esp32_audio_ai.py中的密钥：
 - 串口端口：将ser = serial.Serial('COM3', 115200)中的COM3改为实际端口（Windows 为 COM 开头，Mac/Linux 为/dev/ttyUSB0等）
 - 云 ASR 密钥：填写腾讯云 TENCENT_SECRET_ID、TENCENT_SECRET_KEY
 - 大语言模型密钥：填写 DOUBAO_API_KEY、DOUBAO_ENDPOINT
