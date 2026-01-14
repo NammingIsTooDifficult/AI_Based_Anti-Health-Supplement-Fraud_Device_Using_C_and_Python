@@ -6,9 +6,9 @@
   <img src="https://img.shields.io/badge/Function-AI%20Detection-F7DF1E?style=for-the-badge" />
 </p>
 
-<h1 align="center">老年人保健品虚假宣传识别系统</h1>
+<h1 align="center">Elderly Health Product False Advertising Detection System</h1>
 <p align="center">
-  <b>✨ 便携式AI设备 | 线下场景防诈骗 | 声光震动双提醒</b>
+  <b>✨ Portable AI Device | Offline Anti-Fraud Protection | Audio-Visual-Haptic Alerts</b>
 </p>
 
 ---
@@ -22,88 +22,88 @@
 
 ---
 
-## 📖 项目概述
-本项目是一款面向老年人的便携式防诈骗辅助设备，通过「区域监测→音频采集→AI内容判别→声光震动提醒」的全流程，帮助老年人在线下（如保健品推销现场）快速识别虚假宣传话术，降低受骗风险。
+## 📖 Project Overview
+This project is a portable anti-fraud assistive device designed for elderly users.
+Through a full pipeline of region monitoring → audio capture → AI content analysis → audio/visual/vibration alerts, the system helps elderly users quickly identify false advertising in offline scenarios (such as health product sales events), reducing the risk of fraud.
 
 
-## 🚀 工作流程
-1. 📍 设备进入被标记的风险区域后自动启动
-2. 🎙️ 每4秒自动采集现场对话音频
-3. 📤 音频数据通过串口传输至电脑端
-4. 🧠 电脑端将音频转文字后，通过AI分析内容风险
-5. ⚠️ 若判定为虚假宣传：设备亮红灯+震动；安全场景：亮绿灯
+## 🚀 Workflow
+1. 📍 The device automatically activates when entering a predefined high-risk area
+2. 🎙️ Collects on-site conversation audio every 4 seconds
+3. 📤 Transfers audio data to a computer via serial port
+4. 🧠 The computer converts speech to text and uses AI to analyze content risk
+5. ⚠️ If false advertising is detected: red LED + vibration. Safe scenario: green LED only.
 
 
-## 🛠️ 硬件组成
-- ESP32开发板（核心控制单元）
-- I2S麦克风模块（音频采集）
-- WS2812/外置LED灯（状态显示）
-- 震动马达（触觉提醒）
-- 电源模块（便携供电）
+## 🛠️ Hardware Components
+- ESP32 development board (main controller)
+- I2S microphone module (audio acquisition)
+- WS2812 / external LED (status indication)
+- Vibration motor (tactile alert)
+- Power module (portable power supply)
 
 
-## 🧩 软件架构
-### 设备端（ESP32）
-- 基于Arduino框架开发
-- 功能：音频采集、串口通信、灯光/震动控制
-- 依赖库：Adafruit_NeoPixel
+## 🧩 Software Architecture
+### Device Side (ESP32)
+- Developed with Arduino framework
+- Functions: audio capture, serial communication, LED & vibration control
+- Dependency: `Adafruit_NeoPixel`
 
 
-### 电脑端（Python）
-- 功能：音频接收、语音转文字（ASR）、AI风险判别、结果回传
-- 依赖工具：串口通信库、云ASR服务、大语言模型API
+### Computer Side (Python)
+- Functions: audio reception, speech-to-text (ASR), AI risk analysis, result feedback
+- Dependencies: serial communication library, cloud ASR service, large language model API
 
 
-## 📦 安装与配置
-### 1. 硬件接线（按引脚定义）
+## 📦 Installation & Configuration
+### 1. Hardware Wiring (Pin Definition)
 - I2S_SCK_PIN → 14
 - I2S_WS_PIN → 15
 - I2S_SD_PIN → 12
 - WS2812_PIN → 48
-- 外置 LED_PIN → 5
-- 震动马达_PIN → 2
+- External LED_PIN → 5
+- Vibration Motor_PIN → 2
 
 
-### 2. 设备端配置
-1. 安装Arduino IDE，添加ESP32开发板支持
-2. 安装依赖库：`Adafruit_NeoPixel`
-3. 上传`main.cpp`代码至ESP32
+### 2. Device Configuration
+1. Install Arduino IDE and add ESP32 board support
+2. Install dependency: `Adafruit_NeoPixel`
+3. Upload `main.cpp` to ESP32
 
 
-### 3. 电脑端配置
-1. 安装Python 3.6+
-2. 安装依赖包：
+### 3. Computer Configuration
+1. Install Python 3.6+
+2. Install dependencies:
 ```bash
 pip install serial requests tencentcloud-sdk-python
 ```
 
-3. 配置esp32_audio_ai.py中的密钥：
-- 串口端口：将ser = serial.Serial('COM3', 115200)中的COM3改为实际端口（Windows 为 COM 开头，Mac/Linux 为/dev/ttyUSB0等）
-- 云 ASR 密钥：填写腾讯云 TENCENT_SECRET_ID、TENCENT_SECRET_KEY
-- 大语言模型密钥：填写 DOUBAO_API_KEY、DOUBAO_ENDPOINT
+3. Configure keys in `esp32_audio_ai.py`:
+- Serial port: modify `ser = serial.Serial('COM3', 115200)` to your actual port (Windows uses COM ports, Mac/Linux use `/dev/ttyUSB0`, etc.)
+- Cloud ASR credentials: fill in `TENCENT_SECRET_ID`, `TENCENT_SECRET_KEY`
+- LLM API credentials: fill in `DOUBAO_API_KEY`, `DOUBAO_ENDPOINT`
 
 
-## 📌 使用方法
-1. 连接 ESP32 与电脑（USB）
-2. 启动 ESP32 设备
-3. 运行电脑端脚本：
+## 📌 Usage
+1. Connect ESP32 to the computer via USB
+2. Power on the ESP32 device
+3. Run the computer script:
 ```bash
 python esp32_audio_ai.py
 ```
+4. The device enters monitoring mode automatically:
+- Safe scenario: green LED, no vibration
+- Risk scenario: red LED + vibration motor activated for 5 seconds
 
-4. 设备自动进入监测状态：
-- 安全场景：LED 亮绿灯，无震动
-- 风险场景：LED 亮红灯，同时震动马达启动（持续 5 秒）
+## 🔍 False Advertising Detection Features
+The AI will classify a conversation as risky if two or more of the following are detected:
+- Claims of “curing diseases” or “replacing medical treatment”
+- Exaggerated effects (e.g., “life extension”, “miracle cure”, “instant recovery”)
+- Urgency-based manipulation (e.g., “limited-time offer”, “buy now or price rises tomorrow”)
+- Claims of “exclusive formula”, “secret remedy”, or “internal channels”
 
-## 🔍 虚假宣传识别特征
-AI 将判定包含以下2 项及以上内容的对话为风险话术：
-- 宣称「根治疾病 / 替代药物治疗」
-- 夸大功效（如「延年益寿 / 包治百病 / 一吃就好」）
-- 诱导紧急消费（如「限时折扣 / 今日不买明天涨价 / 买多送多」）
-- 强调「独家配方 / 特效秘药 / 内部渠道」
-
-## ⚠️ 注意事项
-1. 本设备为辅助提醒工具，最终决策请结合实际情况判断
-2. 云 ASR 服务、大语言模型 API 可能产生费用，请参考对应平台的定价规则
-3. 若设备无响应，检查串口端口是否正确、硬件接线是否松动
-4. 长时间使用时，建议配备便携充电宝为 ESP32 供电
+## ⚠️ Notes
+1. This device is an assistive reminder tool; final decisions should be made based on real-world judgment
+2. Cloud ASR services and LLM APIs may incur fees. Please refer to the respective platform pricing
+3. If the device is unresponsive, check the serial port configuration and hardware wiring
+4. For long-term use, it is recommended to power the ESP32 with a portable power bank
